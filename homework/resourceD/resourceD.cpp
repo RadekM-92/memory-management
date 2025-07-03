@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 
 using namespace std;
 
@@ -24,10 +25,11 @@ int main(int argc, char* argv[])
         exit(-1);
     }
     const char* N = argv[1];
-    Resource* rsc = nullptr;
+    // Resource* rsc = nullptr;
+    std::unique_ptr<Resource> rsc{new Resource()};
     try
     {
-        rsc = new Resource();
+        // rsc = new Resource();
         rsc->use(N);
         // delete rsc; // Not reached statement when exception throw
     }
@@ -35,7 +37,7 @@ int main(int argc, char* argv[])
     {
         cout << e.what() << endl;
     }
-    delete rsc;
+    // delete rsc;
     return 0;
 }
 
