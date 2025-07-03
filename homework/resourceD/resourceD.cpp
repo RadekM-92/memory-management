@@ -26,7 +26,8 @@ int main(int argc, char* argv[])
     }
     const char* N = argv[1];
     // Resource* rsc = nullptr;
-    std::unique_ptr<Resource> rsc{new Resource()};
+    // std::unique_ptr<Resource> rsc{new Resource()};
+    auto rsc = std::make_unique<Resource>();
     try
     {
         // rsc = new Resource();
