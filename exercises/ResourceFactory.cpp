@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -29,15 +30,15 @@ struct ResourceB : Resource
 
 struct ResourceFactory
 { 
-    Resource* makeResourceA(char* byte) { return new ResourceA{byte}; }
-    Resource* makeResourceB(char* byte) { return new ResourceB{byte}; }
+    std::shared_ptr<Resource> makeResourceA(char* byte) { return std::make_shared<ResourceA>(byte); }
+    std::shared_ptr<Resource> makeResourceB(char* byte) { return std::make_shared<ResourceB>(byte); }
 };
 
 struct ResourceCollection
 {
-    void add(Resource* r) { resources.push_back(r); }
+    void add(std::shared_ptr<Resource> r) { resources.push_back(r); }
     void clear() { resources.clear(); }
-    Resource* operator[](int index) { return resources[index]; }
+    std::shared_ptr<Resource> operator[](int index) { return resources[index]; }
     void printAll()
     {
         for (const auto & res : resources)
@@ -47,7 +48,7 @@ struct ResourceCollection
     }
 
 private:
-    vector<Resource*> resources;
+    vector<std::shared_ptr<Resource>> resources;
 };
 
 int main()
