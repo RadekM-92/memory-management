@@ -10,7 +10,7 @@ struct Resource
     Resource(char* byte) : byte_(byte) {}
     char* byte() const { return byte_; }
     virtual string name() const = 0;
-    ~Resource() { delete byte_; }
+    ~Resource() { delete[] byte_; }
 
 protected:
     char* byte_ = nullptr;
@@ -55,14 +55,13 @@ int main()
 {
     ResourceCollection collection;
     ResourceFactory rf;
-    collection.add(rf.makeResourceA(new char{0x01}));
-    collection.add(rf.makeResourceB(new char{0x02}));
+    collection.add(rf.makeResourceA(new char[2]{0x01, '\0'}));
+    collection.add(rf.makeResourceB(new char[2]{0x02, '\0'}));
     collection.printAll();
 
     auto firstByte = collection[0]->byte();
+    cout << *firstByte << endl; 
     collection.clear();
-    cout << *firstByte << endl;
-
     return 0;
 }
 
